@@ -1,0 +1,28 @@
+FROM ://microsoft.com
+
+USER root
+
+# 1. Install Ubuntu's native namespace translation & networking dependencies
+RUN apt-get update && apt-get install -y \
+    uidmap \
+    fuse3 \
+    iptables \
+    && rm -rf /var/lib/apt/lists/*
+
+# 2. Download the latest Podman 5 static bundle
+RUN curl -fsSL -o podman-linux-amd64.tar.gz https://github.com/mgoltzsche/podman-static/releases/latest/download/podman-linux-amd64.tar.gz
+
+# 3. Extract and distribute binaries into the system root path, then clean up tarball
+RUN tar -xzf podman-linux-amd64.tar.gz \
+    && cp -r podman-linux-amd64/usr podman-linux-amd64/etc / \
+    && rm -rf podman-linux-amd64 podman-linux-amd64.tar.gz
+
+# 4. Configure VFS storage driver and Pasta network binding for the 'vscode' user
+RUN mkdir -p /home/vscode/.config/containers \
+    && echo '[storage]' > /home/vscode/.config/containers/storage.conf \
+    && echo 'driver = "vfs"' >> /home/vscode/.config/containers/storage.conf \
+    && echo '[containers]' > /home/vscode/.config/containers/containers.conf \
+    && echo 'netns = "pasta"' >> /home/vscode/.config/containers/containers.conf \
+    && chown -R vscode:vscode /home/vscode/.config/containers
+
+USER vscode
