@@ -1,4 +1,4 @@
-FROM ://microsoft.com
+FROM mcr.microsoft.com/devcontainers/universal:5.1.5-noble
 
 USER root
 
