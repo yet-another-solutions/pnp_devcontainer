@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/universal:5.1.5-noble
+FROM mcr.microsoft.com/devcontainers/base:2.1.7-ubuntu24.04
 
 USER root
 
