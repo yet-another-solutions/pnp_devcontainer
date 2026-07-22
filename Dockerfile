@@ -26,7 +26,11 @@ RUN echo 'driver = "vfs"' >> /home/vscode/.config/containers/storage.conf
 
 # 6. Populate container network configuration
 RUN echo '[containers]' > /home/vscode/.config/containers/containers.conf
-RUN echo 'netns = "pasta"' >> /home/vscode/.config/containers/containers.conf
+RUN echo 'netns = "host"' >> /home/vscode/.config/containers/containers.conf
+RUN echo 'ipcns = "host"' >> /home/vscode/.config/containers/containers.conf
+RUN echo 'pidns = "host"' >> /home/vscode/.config/containers/containers.conf
+RUN echo 'utsns = "host"' >> /home/vscode/.config/containers/containers.conf
+RUN echo 'cgroupns = "host"' >> /home/vscode/.config/containers/containers.conf
 
 # 7. Apply proper file ownership to the 'vscode' user
 RUN chown -R vscode:vscode /home/vscode/.config/containers
