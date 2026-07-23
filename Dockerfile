@@ -47,6 +47,8 @@ RUN echo 'runtime = "/usr/local/bin/crun"' >> /home/vscode/.config/containers/co
 
 # 7. Apply proper file ownership to the 'vscode' user
 RUN chown -R vscode:vscode /home/vscode/.config/containers
+RUN mkdir -p /home/vscode/.local/share/containers/storage
+RUN chown -R vscode:vscode /home/vscode /home/vscode/.config /home/vscode/.local
 
 USER vscode
 
